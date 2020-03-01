@@ -18,11 +18,11 @@ INSERT INTO products (item_id, product_name, department_name, price, stock_quant
 VALUES 
 (1231, "Whisk", "Home & Kitchen", 8.99, 30), 
 (523, "Cordless Hair Clippers", "Beauty & Personal Care", 36.99, 15), 
-("Toothbrush Heads", "Beauty & Personal Care", 21.22, 45),
-("Headphones", "Electronics", 87.65, 75),
-("Frooties", "Food", 16.99, 52),
-("The Highwomen", "CDs & Vinyl", 10, 36),
-("Swingline Stapler", "Office Supplies", 4.07, 12),
-("Whiteboard", "Office Supplies", 13.99, 38),
-("Rubber Ducky", "Baby", 5.25, 45),
-("Bluetooth Speaker", "Electronics", 65.76, 32);
+(239, "Toothbrush Heads", "Beauty & Personal Care", 21.22, 45),
+(234, "Headphones", "Electronics", 87.65, 75),
+(759, "Frooties", "Food", 16.99, 52),
+(097, "The Highwomen", "CDs & Vinyl", 10, 36),
+(237, "Swingline Stapler", "Office Supplies", 4.07, 12),
+(612, "Whiteboard", "Office Supplies", 13.99, 38),
+(845, "Rubber Ducky", "Baby", 5.25, 45),
+(190, "Bluetooth Speaker", "Electronics", 65.76, 32);
