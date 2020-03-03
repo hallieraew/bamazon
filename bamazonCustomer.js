@@ -32,56 +32,60 @@ connection.connect(function (err) {
             , colWidths: [20, 25, 20]
         });
 
-        for (i=0; i<10; i++) {// table is an Array, so you can `push`, `unshift`, `splice` and friends
-        table.push(
-            [res[i].item_id, res[i].product_name, res[i].price]
-        );
+        for (i = 0; i < 10; i++) {
+            table.push(
+                [res[i].item_id, res[i].product_name, res[i].price]
+            );
         };
 
         console.log(table.toString());
         startPrompt();
         // connection.end();
-    })});
+    })
+});
 
-    function startPrompt() {
-        inquirer
-          .prompt({
+function startPrompt() {
+    inquirer
+        .prompt({
             name: "IdofProduct",
             type: "number",
             message: "What is the ID of the product you would like to buy?",
-          })
-          .then(function(answer) {
-            // based on their answer, either call the bid or the post functions
-            connection.query("SELECT * FROM products", function (res) {
-                console.log(res[i].item_id);
-              if (answer.IdofProduct == res.item_id) {
-                howMany();
-            }
-            else {
+        })
+        .then(function (answer) {
+            connection.query("SELECT * FROM products", function (err, res) {
+                if (err) throw err;
+                for (var i = 0; i < res.length; i++) {
+                    // return res[i].item_id
+                    console.log(res[i].item_id, answer.IdofProduct);
+                    console.log(res[i]);
+                    if (answer.IdofProduct === res[i].item_id) {
+                        howMany();
+                        return;
+                }}
                 console.log("Please enter another ID");
                 startPrompt();
-            }
+            });
         });
-    });
 };
-    
-      function howMany() {
 
-        inquirer
+function howMany() {
+
+    inquirer
         .prompt({
-          name: "numberofProduct",
-          type: "number",
-          message: "How many of the product would you like to purchase?",
+            name: "numberofProduct",
+            type: "number",
+            message: "How many of the product would you like to purchase?",
         })
-        .then(function(answer) {
-            connection.query("SELECT * FROM products", function(res) {
-
+        .then(function (answer) {
+            connection.query("SELECT * FROM products", function (err, res) {
+                if (err) throw err;
                 if (answer.numberofProduct < res.numberofProduct) {
-                  connection.query("UPDATE * FROM products where item_id = " + answer.IdofProduct)
+                    connection.query("UPDATE * FROM products where item_id = " + answer.IdofProduct)
                 }
                 else {
                     console.log("Insufficient quanity!");
                     howMany();
                 };
             });
-    })};
+        })
+};
