@@ -56,12 +56,13 @@ function startPrompt() {
                 if (err) throw err;
                 for (var i = 0; i < res.length; i++) {
                     // return res[i].item_id
-                    console.log(res[i].item_id, answer.IdofProduct);
-                    console.log(res[i]);
+                    // console.log(res[i].item_id, answer.IdofProduct);
+                    // console.log(res[i]);
                     if (answer.IdofProduct === res[i].item_id) {
                         howMany();
                         return;
-                }}
+                    }
+                }
                 console.log("Please enter another ID");
                 startPrompt();
             });
@@ -79,13 +80,27 @@ function howMany() {
         .then(function (answer) {
             connection.query("SELECT * FROM products", function (err, res) {
                 if (err) throw err;
-                if (answer.numberofProduct < res.numberofProduct) {
-                    connection.query("UPDATE * FROM products where item_id = " + answer.IdofProduct)
+                for (var i = 0; i < res.length; i++) {
+                    console.log(res[i].stock_quantity);
+                    if (answer.numberofProduct <= parseInt(res[i].stock_quantity)) {
+                        var newStock = answer.numberofProduct -= res[i].stock_quantity;
+                        connection.query("UPDATE products SET ? WHERE ?",
+
+                            {
+                                stock_quantity: newStock,
+                                item_id: answer.numberofProduct
+                            },
+
+                            function (err) {
+                                if (err) throw err;
+
+                            })
+                        console.log(answer.numberofProduct * res[i].price);
+                        return;
+                    }
                 }
-                else {
-                    console.log("Insufficient quanity!");
-                    howMany();
-                };
+                console.log("Insufficient quanity!");
+                howMany();
             });
         })
 };
