@@ -20,9 +20,11 @@ var connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
+function startApp() {
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("Here is the inventory of products: ");
+    console.log("\n=========== Welcome to Bamazon! ===========");
+    console.log("\n Here is the inventory of products: ");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
@@ -43,6 +45,7 @@ connection.connect(function (err) {
         // connection.end();
     })
 });
+};
 
 function startPrompt() {
     inquirer
@@ -63,7 +66,7 @@ function startPrompt() {
                         return;
                     }
                 }
-                console.log("Please enter another ID");
+                console.log("\nPlease enter another ID");
                 startPrompt();
             });
         });
@@ -81,10 +84,10 @@ function howMany() {
             connection.query("SELECT * FROM products", function (err, res) {
                 if (err) throw err;
                 for (var i = 0; i < res.length; i++) {
-                    console.log(res[i].stock_quantity);
+                    // console.log(res[i].stock_quantity);
                     if (answer.numberofProduct <= parseInt(res[i].stock_quantity)) {
                         var newStock = res[i].stock_quantity -= answer.numberofProduct;
-                        console.log(newStock);
+                        // console.log(newStock);
                         connection.query("UPDATE products SET ? WHERE ?",
 
                             [{
@@ -98,13 +101,15 @@ function howMany() {
                                 if (err) throw err;
 
                             })
-                        console.log("Your total cost is: $" + answer.numberofProduct * res[i].price);
+                        console.log("\nYour total cost is: $" + answer.numberofProduct * res[i].price);
+                        connection.end();
                         return;
                     }
-                } 
-                console.log("Insufficient quanity!");
+                }
+                console.log("\nInsufficient quanity!");
                 howMany();
-                connection.end();
             });
-        })
+
+        });
 };
+startApp();
