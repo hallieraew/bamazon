@@ -83,24 +83,28 @@ function howMany() {
                 for (var i = 0; i < res.length; i++) {
                     console.log(res[i].stock_quantity);
                     if (answer.numberofProduct <= parseInt(res[i].stock_quantity)) {
-                        var newStock = answer.numberofProduct -= res[i].stock_quantity;
+                        var newStock = res[i].stock_quantity -= answer.numberofProduct;
+                        console.log(newStock);
                         connection.query("UPDATE products SET ? WHERE ?",
 
-                            {
+                            [{
                                 stock_quantity: newStock,
-                                item_id: answer.numberofProduct
                             },
+                            {
+                                item_id: answer.numberofProduct
+                            }],
 
                             function (err) {
                                 if (err) throw err;
 
                             })
-                        console.log(answer.numberofProduct * res[i].price);
+                        console.log("Your total cost is: $" + answer.numberofProduct * res[i].price);
                         return;
                     }
-                }
+                } 
                 console.log("Insufficient quanity!");
                 howMany();
+                connection.end();
             });
         })
 };
