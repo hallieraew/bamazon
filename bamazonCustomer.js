@@ -66,7 +66,7 @@ function startPrompt() {
                         return;
                     }
                 }
-                console.log("\nPlease enter another ID");
+                console.log("\nUnfortunately we cannot find that ID. Please enter another ID from our current list of products.\n");
                 startPrompt();
             });
         });
@@ -101,12 +101,27 @@ function howMany() {
                                 if (err) throw err;
 
                             })
-                        console.log("\nYour total cost is: $" + answer.numberofProduct * res[i].price);
-                        connection.end();
+                        console.log("\nYour total cost is: $" + answer.numberofProduct * res[i].price + "\n");
+                        again();
+                        function again() {
+                            inquirer.prompt({
+                                name: "exit",
+                                type: "list",
+                                message: "Would you like to purchase another item or exit the store?",
+                                choices: ["BUY", "EXIT"]
+                            }).then(function (answer){
+                                if(answer.exit === "EXIT"){
+                                    console.log("\n====Thank you for your purchase(s)! See you again soon!====\n")
+                                    connection.end();
+                                    return;
+                                } else startPrompt();
+                            })
+                        };
+                        // connection.end();
                         return;
                     }
                 }
-                console.log("\nInsufficient quanity!");
+                console.log("\nInsufficient quanity!\n");
                 howMany();
             });
 
