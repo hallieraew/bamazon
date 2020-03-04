@@ -121,7 +121,7 @@ function howMany() {
                         return;
                     }
                 }
-                console.log("\nInsufficient quanity!\n");
+                console.log("\nInsufficient quantity!\n");
                 howMany();
             });
 
