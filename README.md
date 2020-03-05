@@ -1,6 +1,6 @@
 # Bamazon
 
-## Overview
+### Overview
 
 Bamazon is an Amazon-like store front which allows customers to view inventory, select product, select quanity and determine price for products desired from the command line. This application will query from a MySQL database in order to determine cost, product and quantity and then will dynamically update the stock based on what the user has decided to purchase.
 
